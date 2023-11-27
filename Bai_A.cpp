@@ -187,24 +187,24 @@ istream &operator>>(istream &in, danh_sach&x){
         int choose = 0;
         string tmp;
         cout << "Nhap lua chon: ";
-        do{
+        do{                                                                          
             getline(in, tmp);
             if(!check_choose(chuyen_doi(tmp))){ cout << "Nhap lai lua chon: "; }
-        } while(!check_choose(chuyen_doi(tmp)));
+        } while(!check_choose(chuyen_doi(tmp))); // độ phức tạp của vòng lặp này tùy thuộc vào số lần nhập sai
         tmp = chuyen_doi(tmp);
         choose = chuyenchuoi(tmp);
-        if(choose == 0){ break;}
-        else if(choose == 1){
+        if(choose == 0){ break;}         // độ phức tạp là O(1)
+        else if(choose == 1){               // độ phức tạp là O(n)
             cout << "\nNhap thong tin cua sach!\n";
             sach a;
             in >> a;
             x.l.push_front(a);
-        } else cout << "Nhap lai lua chon: \n";
+        } else cout << "Nhap lai lua chon: \n";  // độ phức tạp là O(1)
     }
     return in;
-}
+}  // độ phức tạp tùy thuộc vào số lần nhập lại của người dùng
 ostream &operator<<(ostream&out, const danh_sach&x){
-    if(x.l.size() == 0){ cout << "Thu vien trong!!\n"; }
+    if(x.l.size() == 0){ cout << "Thu vien trong!!\n"; }  // độ phức tạp là O(1)
     else{
         while(1){
         out << "\n==================== Thong tin sach ====================\n";
@@ -213,41 +213,27 @@ ostream &operator<<(ostream&out, const danh_sach&x){
         out << "| 2. Sach cho tre em!                                  |\n";
         out << "| 3. Sach cho nguoi lon!                               |\n";
         out << "========================================================\n";
-        int choose = 0;
-        string tmp;
-        out << "Nhap lua chon: ";
-        do{
-            getline(cin, tmp);
-            if(!check_choose(chuyen_doi(tmp))){ out << "Nhap lai lua chon: "; }
-        } while(!check_choose(chuyen_doi(tmp)));
-        tmp = chuyen_doi(tmp);
-        choose = chuyenchuoi(tmp);
-        if(choose == 0){ break; }
-        else if(choose == 1){
-            for(sach t : x.l){ out << t; }
-        } else if(choose == 2){
-            int cnt = 0;
+        int choose = 0;  string tmp; out << "Nhap lua chon: ";
+        do{ getline(cin, tmp); if(!check_choose(chuyen_doi(tmp))){ out << "Nhap lai lua chon: "; }
+        } while(!check_choose(chuyen_doi(tmp))); // độ phức tạp của vòng lặp này tùy thuộc vào số lần nhập sai
+        tmp = chuyen_doi(tmp);   // độ phức tạp là O(n)
+        choose = chuyenchuoi(tmp); // độ phức tạp là O(n)
+        if(choose == 0){ break; } // độ phức tạp là O(1)
+        else if(choose == 1){ for(sach t : x.l){ out << t; } //  độ phức tạp tùy thuộc vào số lượng phần tử
+        } else if(choose == 2){int cnt = 0; // giả sử m là số lượng phần tử, độ phức tạp là O(m*n)
             for(sach t : x.l){
                 if(chuanhoa(t.get_doituong()) == "Tre Em " || chuanhoa(t.get_doituong()) == "Tat Ca "){
-                    cnt++;
-                    out << t;
-                }
-            }
+                    cnt++; out << t; } }
             if(cnt == 0) cout << "Khong co sach danh cho tre em!\n";
-        } else if(choose == 3){
-            int cnt = 0;
+        } else if(choose == 3){ int cnt = 0; // giả sử m là số lượng phần tử, độ phức tạp là O(m*n)
             for(sach t : x.l){
                 if(chuanhoa(t.get_doituong()) == "Nguoi Lon " || chuanhoa(t.get_doituong()) == "Tat Ca "){
-                    cnt++;
-                    out << t;
-                }
-            }
+                    cnt++;out << t;} }
             if(cnt == 0) cout << "Khong co sach danh cho nguoi lon!\n";
-        } else{ out << "Nhap lai lua chon: "; }
-    }
-    }
+        } else{ out << "Nhap lai lua chon: "; } // độ phức tạp là O(1)
+    }} 
     return out;
-}
+} // độ phức tạp tùy thuộc vào số lần nhập lại của người dùng
 void danh_sach::search(){
     if(l.size() == 0){ cout << "Thu vien trong!!\n"; }
     else{
@@ -264,16 +250,16 @@ void danh_sach::search(){
         do{
             getline(cin, tmp);
             if(!check_choose(chuyen_doi(tmp))){ cout << "Nhap lai lua chon: "; }
-        } while(!check_choose(chuyen_doi(tmp)));
-        tmp = chuyen_doi(tmp);
-        choose = chuyenchuoi(tmp);
-        if(choose == 0){ break; }
+        } while(!check_choose(chuyen_doi(tmp)));  // độ phức tạp của vòng lặp này tùy thuộc vào số lần nhập sai
+        tmp = chuyen_doi(tmp); // độ phức tạp là O(n)
+        choose = chuyenchuoi(tmp); // độ phức tạp là O(n)
+        if(choose == 0){ break; } // độ phức tạp là O(1)
         else if(choose == 1){
             while(1){
                 int cnt = 0;
                 cout << "\n========================== Cac tac gia ==========================\n";
                 cout << "0. Thoat!\n";
-                for(auto i : Nguoi){
+                for(auto i : Nguoi){      
                     cnt++;
                     cout << cnt << ". " << i.first << endl;
                 }
@@ -286,16 +272,16 @@ void danh_sach::search(){
                 do{
                     getline(cin, lc);
                     if(!check_choose(chuyen_doi(lc))){ cout << "Nhap lai lua chon: "; }
-                } while(!check_choose(chuyen_doi(lc)));
-                lc = chuyen_doi(lc);
-                int luachon = chuyenchuoi(lc);
-                if(luachon == 0){ break; }
+                } while(!check_choose(chuyen_doi(lc)));// độ phức tạp của vòng lặp này tùy thuộc vào số lần nhập sai
+                lc = chuyen_doi(lc); // độ phức tạp là O(n)
+                int luachon = chuyenchuoi(lc); // độ phức tạp là O(n)
+                if(luachon == 0){ break; } // độ phức tạp là O(1)
                 else if(tl.count(luachon) != 0){
                     for(auto t : l){
                         if(chuanhoa(t.get_tentacgia()) == chuanhoa(tl[luachon])){ cout << t; }
                     }
                 } else{ cout << "Nhap lai lua chon: "; }
-            }
+            }  // độ phức tạp tùy thuộc vào số lần nhập lại của người dùng
         } else if(choose == 2){
             while(1){
                 int cnt = 0;
@@ -371,21 +357,22 @@ void danh_sach::sapxep(){
         do{
             getline(cin, tmp);
             if(!check_choose(chuyen_doi(tmp))){ cout << "Nhap lai lua chon: ";}
-        } while(!check_choose(chuyen_doi(tmp)));
+        } while(!check_choose(chuyen_doi(tmp))); // độ phức tạp tùy thuộc vào số lần nhập sai
         tmp = chuyen_doi(tmp);
         choose = chuyenchuoi(tmp);
-        if(choose == 0){ break; }
-        else if(choose == 1){
-            l.sort();
+        if(choose == 0){ break; } // độ phức tạp là O(1)
+        else if(choose == 1){   // độ phức tạp là O(nlogn)
+            l.sort();          
             for(sach t : l){ cout << t; }
-        } else if(choose == 2){
-            l.sort();
+        } else if(choose == 2){ // độ phức tạp là O(nlogn)
+            l.sort();          
             l.reverse();
             for(sach t : l){ cout << t;}
-        } else{ cout << "Nhap lai lua chon: "; }
+        } else{ cout << "Nhap lai lua chon: "; } // độ phức tạp là O(1)
     }
     }
-}
+
+} // độ phức tạp tùy thuộc vào số lần nhập lại của người dùng
 void danh_sach::xoa(){
     if(l.size() == 0){ cout << "Thu vien trong!!\n"; }
     else {
@@ -452,9 +439,9 @@ void danh_sach::xoa(){
     }
 }
 void danh_sach::newlist(){
-    l.clear();
-    cout << "Da tao danh sach moi!\n";
-}
+    l.clear(); //  // độ phức tạp là O(n)
+    cout << "Da tao danh sach moi!\n"; // độ phức tạp là O(1)
+} // độ phức tạp là O(n)
 void danh_sach::update(){
     if(l.size() == 0){ cout << "Thu vien trong!!\n";}
     else{
